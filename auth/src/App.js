@@ -1,6 +1,9 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from "react";
+import logo from "./logo.svg";
+import "./App.css";
+import { Route } from "react-router-dom";
+import { withRouter } from "react-router";
+import { connect } from "react-redux";
 
 class App extends Component {
   render() {
@@ -25,4 +28,15 @@ class App extends Component {
   }
 }
 
-export default App;
+const mapStateToProps = state => {
+  // console.log(state);
+  // console.log(localStorage);
+  return {};
+};
+
+export default withRouter(
+  connect(
+    mapStateToProps,
+    {}
+  )(App)
+);

@@ -1,3 +1,5 @@
+require("dotenv").config();
+
 const express = require("express");
 const server = express();
 const helmet = require("helmet");
@@ -9,7 +11,7 @@ const jwt = require("jsonwebtoken");
 const db = require("./data/db");
 const Users = require("./data/models/userModel");
 
-const secret = "secret";
+const secret = process.env.JWT_SECRET || "secret";
 
 server.use(express.json());
 server.use(helmet());
@@ -62,7 +64,8 @@ server.post("/api/login", (req, res) => {
           message: `Welcome ${
             user.username
           }! Successfully loggin in, here's a cookie and a token`,
-          token
+          token,
+          secret
         });
       } else {
         res
