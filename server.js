@@ -94,19 +94,18 @@ function restricted(req, res, next) {
   }
 }
 
-// server.get("/api/users", restricted, (req, res) => {
-//   Users.find()
-//     .then(users => {
-//       res.json({
-//         users,
-//         decodedToken: req,
-//         decodedJwt
-//       });
-//     })
-//     .catch(err => res.send(err));
-// });
+server.get("/api/users", restricted, (req, res) => {
+  Users.find()
+    .then(users => {
+      res.json({
+        users,
+        decodedToken: req.decodedJwt
+      });
+    })
+    .catch(err => res.send(err));
+});
 
-server.get("/api/users", restricted, async (req, res) => {
+server.get("/users", restricted, async (req, res) => {
   try {
     const users = await Users.find();
 
