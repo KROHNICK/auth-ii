@@ -28,10 +28,14 @@ server.post("/api/register", (req, res) => {
   user.password = hash;
   Users.add(user)
     .then(saved => {
-      res.status(201).json({
-        saved,
-        message: "Registered."
-      });
+      if (req.body.username || req.body.password || req.body.department) {
+        res.status(201).json({
+          saved,
+          message: "Registered."
+        });
+      } else {
+        res.status(500).json(err);
+      }
     })
     .catch(error => {
       res.status(500).json({
