@@ -4,9 +4,12 @@ const helmet = require("helmet");
 const bcrypt = require("bcryptjs");
 const cors = require("cors");
 const morgan = require("morgan");
+const jwt = require("jsonwebtoken");
 
 const db = require("./data/db");
 const Users = require("./data/models/userModel");
+
+const secret = "secret";
 
 server.use(express.json());
 server.use(helmet());
@@ -35,15 +38,36 @@ server.post("/api/register", (req, res) => {
     });
 });
 
+function generateToken(user) {
+  const payload = {
+    subject: user.id,
+    username: user.username
+  };
+
+  const options = {
+    expiresIn: "1d"
+  };
+
+  return jwt.sign(payload, secret, options);
+}
+
 server.post("/api/login", (req, res) => {
   let { username, password } = req.body;
   Users.findBy({ username })
     .first()
     .then(user => {
       if (user && bcrypt.compareSync(password, user.password)) {
-        res.status(200).json({ message: `Welcome ${user.username}!` });
+        const token = generateToken(user);
+        res.status(200).json({
+          message: `Welcome ${
+            user.username
+          }! Successfully loggin in, here's a cookie and a token`,
+          token
+        });
       } else {
-        res.status(401).json({ message: "Invalid Credentials" });
+        res
+          .status(401)
+          .json({ message: "Invalid Credentials. You shall not pass!" });
       }
     })
     .catch(error => {
