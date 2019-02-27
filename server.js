@@ -76,43 +76,44 @@ server.post("/api/login", (req, res) => {
 });
 
 function restricted(req, res, next) {
-  const { username, password } = req.headers;
-  if (username && password) {
-    Users.findBy({ username })
-      .first()
-      .then(user => {
-        if (user && bcrypt.compareSync(password, user.password)) {
-          next();
-        } else {
-          res.status(401).json({ message: "Invalid Credentials" });
-        }
-      })
-      .catch(error => {
-        res.status(500).json({
-          message: "Unexpected error."
-        });
-      });
-  } else {
-    res.status(500).json({
-      message: "Please provide credentials."
+  const token = req.headers.authorization;
+
+  if (token) {
+    jwt.verify(token, secret, (err, decodedToken) => {
+      if (err) {
+        res
+          .status(401)
+          .json({ message: "Invalid credentials. You shall not pass!" });
+      } else {
+        req.decodedJwt = decodedToken;
+        next();
+      }
     });
+  } else {
+    res.status(401).json({ message: "Please provide valid token." });
   }
 }
 
-server.get("/api/users", restricted, (req, res) => {
-  Users.find()
-    .then(users => {
-      res.json(users);
-    })
-    .catch(err => res.send(err));
-});
+// server.get("/api/users", restricted, (req, res) => {
+//   Users.find()
+//     .then(users => {
+//       res.json({
+//         users,
+//         decodedToken: req,
+//         decodedJwt
+//       });
+//     })
+//     .catch(err => res.send(err));
+// });
 
-server.get("/users", (req, res) => {
-  Users.find()
-    .then(users => {
-      res.json(users);
-    })
-    .catch(err => res.send(err));
+server.get("/api/users", restricted, async (req, res) => {
+  try {
+    const users = await Users.find();
+
+    res.json(users);
+  } catch (error) {
+    res.send(error);
+  }
 });
 
 module.exports = server;
