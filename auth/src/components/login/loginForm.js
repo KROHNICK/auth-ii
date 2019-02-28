@@ -6,8 +6,9 @@ const LoginForm = props => {
     <Form onSubmit={props.postAuthReg}>
       <h1>Login Page</h1>
       <div className="username">
-        <Label>Username</Label>
+        <Label htmlFor="username">Username</Label>
         <Input
+          id="username"
           type="text"
           name="username"
           value={props.username}
@@ -17,8 +18,9 @@ const LoginForm = props => {
         />
       </div>
       <div className="password">
-        <Label>Password</Label>
+        <Label htmlFor="password">Password</Label>
         <Input
+          id="password"
           type="text"
           name="password"
           value={props.password}

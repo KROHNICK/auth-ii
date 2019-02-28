@@ -4,6 +4,7 @@ import { getUsers } from "../../actions";
 import User from "./user";
 import styled from "styled-components";
 import { Button } from "reactstrap";
+import axios from "axios";
 
 const UserList = styled.div`
   width: 880px;
@@ -21,7 +22,7 @@ const Div = styled.div`
   width: 880px;
   margin: 150px auto;
   display: flex;
-  justify-content: space-around;
+  flex-direction: column;
 `;
 
 const Item = styled.li`
@@ -37,20 +38,34 @@ const List = styled.div`
 
 class Users extends Component {
   componentDidMount() {
-    this.getAll();
+    const endpoint = "http://localhost:3000/api/users";
+    const token = localStorage.getItem("jwt");
+    const reqOptions = {
+      headers: {
+        authorization: token
+      }
+    };
+    axios
+      .get(endpoint)
+      .then(res => {
+        this.setState({
+          users: res.data.users
+        });
+      })
+      .catch(err => console.log(err));
   }
 
-  //   componentDidUpdate() {
-  //     this.getAll();
-  //   }
-
-  getAll = () => {
-    const headersObj = {
-      headers: { authorization: this.props.token }
-    };
-    this.props.getUsers(headersObj);
-    console.log(headersObj);
+  state = {
+    users: []
   };
+
+  //   getAll = () => {
+  //     const headersObj = {
+  //       headers: { authorization: this.props.token }
+  //     };
+  //     this.props.getUsers(headersObj);
+  //     console.log(headersObj);
+  //   };
 
   toRegister = () => {
     this.props.history.push("/register");
@@ -65,39 +80,28 @@ class Users extends Component {
   };
 
   render() {
+    console.log(this.state);
     return (
       <Div>
-        {!this.props.token ? (
-          <div>
-            <div>
-              <h3>Sorry, you do not have access to users</h3>
-              <h4>Please log in or register.</h4>
-            </div>
-            <Buttons>
-              <Button onClick={this.toRegister}>Register</Button>
-              <Button onClick={this.toLogin}>Login</Button>
-            </Buttons>
-          </div>
-        ) : (
-          <div>
-            <Button onClick={this.logOut}>Log Out</Button>
-            <UserList>
-              <List>
-                {this.props.users ? (
-                  this.props.users.map(users => {
-                    return (
-                      <Item key={users.id}>
-                        <User users={users} />
-                      </Item>
-                    );
-                  })
-                ) : (
-                  <h4>No Users :(</h4>
-                )}
-              </List>
-            </UserList>
-          </div>
-        )}
+        <div>
+          <Button onClick={this.logOut}>Log Out</Button>
+        </div>
+
+        <UserList>
+          <List>
+            {this.state.users ? (
+              this.state.users.map(users => {
+                return (
+                  <Item key={users.id}>
+                    <User users={users} />
+                  </Item>
+                );
+              })
+            ) : (
+              <h4>No Users :(</h4>
+            )}
+          </List>
+        </UserList>
       </Div>
     );
   }

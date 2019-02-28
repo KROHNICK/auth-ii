@@ -3,33 +3,36 @@ import { login } from "../../actions";
 import { connect } from "react-redux";
 import LoginForm from "./loginForm";
 import { Button } from "reactstrap";
+import axios from "axios";
 
 class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
       username: "",
-      password: "",
-      department: ""
+      password: ""
     };
   }
 
   handleChanges = e => {
-    this.setState({ [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+
+    this.setState({ [name]: value });
   };
 
   handleSubmit = e => {
     e.preventDefault();
-    const creds = {
-      username: this.state.username,
-      password: this.state.password
-    };
-    console.log(creds);
-    this.props.login(creds);
-    this.setState({
-      username: "",
-      password: ""
-    });
+    const endpoint = "http://localhost:3000/api/login";
+
+    axios
+      .post(endpoint, this.state)
+      .then(res => {
+        localStorage.setItem("jwt", res.data.token);
+        this.props.history.push("/users");
+      })
+      .catch(err => console.log(err));
+
+    console.log(localStorage);
   };
 
   toRegister = () => {
@@ -44,7 +47,6 @@ class Login extends Component {
           handleSubmit={this.handleSubmit}
           username={this.state.username}
           password={this.state.password}
-          toHome={this.toHome}
         />
         <Button onClick={this.toRegister}>Register</Button>
         {!this.props.isNotLoggedIn ? null : <h3>Could not login.</h3>}
@@ -55,7 +57,6 @@ class Login extends Component {
 }
 
 const mapStateToProps = state => {
-  console.log(state);
   return {
     isNotLoggedIn: state.isNotLoggedIn,
     isLoggedIn: state.isLoggedIn

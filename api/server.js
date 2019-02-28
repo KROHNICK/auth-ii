@@ -5,18 +5,15 @@ const server = express();
 const helmet = require("helmet");
 const bcrypt = require("bcryptjs");
 const cors = require("cors");
-const morgan = require("morgan");
 const jwt = require("jsonwebtoken");
 
-const db = require("./data/db");
-const Users = require("./data/models/userModel");
+const db = require("../data/db");
+const Users = require("../data/models/userModel");
+const configureMiddleware = require("./middleware");
 
 const secret = process.env.JWT_SECRET || "secret";
 
-server.use(express.json());
-server.use(helmet());
-server.use(cors());
-server.use(morgan("dev"));
+configureMiddleware(server);
 
 server.get("/api", (req, res) => {
   res.send("Server works.");
@@ -71,8 +68,7 @@ server.post("/api/login", (req, res) => {
           message: `Welcome ${
             user.username
           }! Successfully loggin in, here's a cookie and a token`,
-          token,
-          secret
+          token
         });
       } else {
         res
