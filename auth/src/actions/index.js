@@ -43,7 +43,10 @@ export const login = creds => dispatch => {
 export const getUsers = headersObj => dispatch => {
   dispatch({ type: FETCHING_USERS });
   axios
-    .get("http://localhost:3000/api/login/users", headersObj)
-    .then(res => dispatch({ type: FETCHING_USERS_SUCCESS, payload: res.data }))
+    .get("http://localhost:3000/api/users", headersObj)
+    .then(res => {
+      console.log(res.data);
+      dispatch({ type: FETCHING_USERS_SUCCESS, payload: res.data.users });
+    })
     .catch(err => dispatch({ type: FETCHING_USERS_FAILURE, payload: err }));
 };

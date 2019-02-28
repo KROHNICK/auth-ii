@@ -48,6 +48,7 @@ class Login extends Component {
         />
         <Button onClick={this.toRegister}>Register</Button>
         {!this.props.isNotLoggedIn ? null : <h3>Could not login.</h3>}
+        {!this.props.isLoggedIn ? null : this.props.history.push("/users")}
       </div>
     );
   }
