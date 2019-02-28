@@ -41,17 +41,35 @@ class Login extends Component {
 
   render() {
     return (
-      <div>
-        <LoginForm
-          handleChanges={this.handleChanges}
-          handleSubmit={this.handleSubmit}
-          username={this.state.username}
-          password={this.state.password}
-        />
-        <Button onClick={this.toRegister}>Register</Button>
-        {!this.props.isNotLoggedIn ? null : <h3>Could not login.</h3>}
-        {!this.props.isLoggedIn ? null : this.props.history.push("/users")}
-      </div>
+      <>
+        <h2>Login</h2>
+        <form onSubmit={this.handleSubmit}>
+          <div>
+            <label htmlFor="username" />
+            <input
+              name="username"
+              id="username"
+              value={this.state.username}
+              onChange={this.handleChanges}
+              type="text"
+            />
+          </div>
+          <div>
+            <label htmlFor="password" />
+            <input
+              name="password"
+              id="password"
+              value={this.state.password}
+              onChange={this.handleChanges}
+              type="password"
+            />
+          </div>
+
+          <div>
+            <button type="submit">Login</button>
+          </div>
+        </form>
+      </>
     );
   }
 }
