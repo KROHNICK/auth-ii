@@ -24,6 +24,17 @@ const Div = styled.div`
   justify-content: space-around;
 `;
 
+const Item = styled.li`
+  display: flex;
+  flex-direction: row;
+`;
+
+const List = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin: 10px 0;
+`;
+
 class Users extends Component {
   componentDidMount() {
     this.getAll();
@@ -68,19 +79,24 @@ class Users extends Component {
             </Buttons>
           </div>
         ) : (
-          <UserList>
-            <div>
-              <Button onClick={this.logOut}>Log Out</Button>
-            </div>
-
-            {this.props.users ? (
-              this.props.users.map(users => {
-                return <User users={users} />;
-              })
-            ) : (
-              <h4>No Users :(</h4>
-            )}
-          </UserList>
+          <div>
+            <Button onClick={this.logOut}>Log Out</Button>
+            <UserList>
+              <List>
+                {this.props.users ? (
+                  this.props.users.map(users => {
+                    return (
+                      <Item key={users.id}>
+                        <User users={users} />
+                      </Item>
+                    );
+                  })
+                ) : (
+                  <h4>No Users :(</h4>
+                )}
+              </List>
+            </UserList>
+          </div>
         )}
       </Div>
     );

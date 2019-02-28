@@ -125,4 +125,18 @@ server.get("/users", restricted, async (req, res) => {
   }
 });
 
+server.get("/api/logout", (req, res) => {
+  if (req.session) {
+    req.session.destroy(err => {
+      if (err) {
+        res.send("Could not logout.");
+      } else {
+        res.send("Logged out successfully.");
+      }
+    });
+  } else {
+    res.end();
+  }
+});
+
 module.exports = server;
