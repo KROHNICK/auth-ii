@@ -4,56 +4,19 @@ const express = require("express");
 const server = express();
 
 const db = require("../data/db");
-const Users = require("../data/models/userModel");
+const Users = require("../users/userModel");
 const configureMiddleware = require("./middleware");
 const authRouter = require("../auth0/auth-router");
+const usersRouter = require("../users/users-router");
+const secret = require("../config/secrets");
 
 configureMiddleware(server);
 
 server.use("/api/auth", authRouter);
+server.use("/api/users", usersRouter);
 
-server.get("/api", (req, res) => {
+server.get("/", (req, res) => {
   res.send("Server works.");
-});
-
-function restricted(req, res, next) {
-  const token = req.headers.authorization;
-
-  if (token) {
-    jwt.verify(token, secret, (err, decodedToken) => {
-      if (err) {
-        res
-          .status(401)
-          .json({ message: "Invalid credentials. You shall not pass!" });
-      } else {
-        req.decodedJwt = decodedToken;
-        next();
-      }
-    });
-  } else {
-    res.status(401).json({ message: "Please provide valid token." });
-  }
-}
-
-server.get("/api/users", restricted, (req, res) => {
-  Users.find()
-    .then(users => {
-      res.json({
-        users,
-        decodedToken: req.decodedJwt
-      });
-    })
-    .catch(err => res.send(err));
-});
-
-server.get("/users", restricted, async (req, res) => {
-  try {
-    const users = await Users.find();
-
-    res.json(users);
-  } catch (error) {
-    res.send(error);
-  }
 });
 
 server.get("/api/logout", (req, res) => {

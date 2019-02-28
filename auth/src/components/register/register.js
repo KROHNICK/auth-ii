@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { register } from "../../actions";
 import RegisterForm from "./registerForm";
 import { Button } from "reactstrap";
+import axios from "axios";
 
 class Register extends Component {
   constructor(props) {
@@ -15,23 +16,22 @@ class Register extends Component {
   }
 
   handleChanges = e => {
-    this.setState({ [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+
+    this.setState({ [name]: value });
   };
 
   handleSubmit = e => {
     e.preventDefault();
-    const newUser = {
-      username: this.state.username,
-      password: this.state.password,
-      department: this.state.department
-    };
-    console.log(newUser);
-    this.props.register(newUser);
-    this.setState({
-      username: "",
-      password: "",
-      department: ""
-    });
+    const endpoint = "http://localhost:3000/api/auth/register";
+
+    axios
+      .post(endpoint, this.state)
+      .then(res => {
+        console.log(res.data);
+        this.props.history.push("/users");
+      })
+      .catch(err => console.log(err));
   };
 
   toLogin = () => {

@@ -2,21 +2,18 @@ const router = require("express").Router();
 const bcrypt = require("bcryptjs");
 
 const tokenService = require("../auth0/token-service");
-const Users = require("../data/models/userModel");
+const Users = require("../users/userModel");
 
 router.post("/register", (req, res) => {
   let user = req.body;
-  const hash = bcrypt.hashSync(user.password, 12);
+  const hash = bcrypt.hashSync(user.password, 10);
   user.password = hash;
   Users.add(user)
     .then(saved => {
       if (req.body.username || req.body.password || req.body.department) {
-        const token = generateToken(user);
         res.status(201).json({
           saved,
-          message: "Registered.",
-          token,
-          secret
+          message: "Registered."
         });
       } else {
         res.status(500).json(err);
