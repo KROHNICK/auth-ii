@@ -30,7 +30,8 @@ const rootReducer = (state = initialState, action) => {
     case FETCHING_USERS:
       return {
         ...state,
-        fetchingUsers: true
+        fetchingUsers: true,
+        isRegistered: false
       };
     case FETCHING_USERS_SUCCESS:
       return {

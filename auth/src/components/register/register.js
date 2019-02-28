@@ -50,7 +50,7 @@ class Register extends Component {
         />
         <Button onClick={this.toLogin}>Log In</Button>
         {!this.props.isNotRegistered ? null : <h3>Could not register.</h3>}
-        {!this.props.isRegistered ? null : <h3>Registered successfully.</h3>}
+        {!this.props.isRegistered ? null : this.props.history.push("/users")}
       </div>
     );
   }

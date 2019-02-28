@@ -29,9 +29,12 @@ server.post("/api/register", (req, res) => {
   Users.add(user)
     .then(saved => {
       if (req.body.username || req.body.password || req.body.department) {
+        const token = generateToken(user);
         res.status(201).json({
           saved,
-          message: "Registered."
+          message: "Registered.",
+          token,
+          secret
         });
       } else {
         res.status(500).json(err);
