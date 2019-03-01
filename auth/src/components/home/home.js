@@ -4,9 +4,13 @@ import styled from "styled-components";
 
 const Div = styled.div`
   width: 880px;
-  margin: 150px auto;
+  margin: 50px auto;
+`;
+
+const Buttons = styled.div`
   display: flex;
   justify-content: space-around;
+  margin: 50px 0;
 `;
 
 class Home extends Component {
@@ -25,9 +29,14 @@ class Home extends Component {
   render() {
     return (
       <Div>
-        <Button onClick={this.toRegister}>Register</Button>
-        <Button onClick={this.toUsers}>Users</Button>
-        <Button onClick={this.toLogin}>Log In</Button>
+        <div>
+          <h1>Welcome</h1>
+        </div>
+        <Buttons>
+          <Button onClick={this.toRegister}>Register</Button>
+          <Button onClick={this.toUsers}>Users</Button>
+          <Button onClick={this.toLogin}>Log In</Button>
+        </Buttons>
       </Div>
     );
   }

@@ -2,6 +2,18 @@ import React, { Component } from "react";
 import LoginForm from "./loginForm";
 import { Button, Form, FormGroup, Label, Input, FormText } from "reactstrap";
 import axios from "axios";
+import styled from "styled-components";
+
+const Div = styled.div`
+  width: 880px;
+  margin: 0 auto;
+`;
+
+const Buttons = styled.div`
+  display: flex;
+  justify-content: space-around;
+  margin: 15px;
+`;
 
 class Login extends Component {
   constructor(props) {
@@ -42,7 +54,7 @@ class Login extends Component {
 
   render() {
     return (
-      <>
+      <Div>
         <h2>Login</h2>
         <Form onSubmit={this.handleSubmit}>
           <div>
@@ -66,12 +78,12 @@ class Login extends Component {
             />
           </div>
 
-          <div>
+          <Buttons>
             <Button>Login</Button>
             <Button onClick={this.toRegister}>Register</Button>
-          </div>
+          </Buttons>
         </Form>
-      </>
+      </Div>
     );
   }
 }

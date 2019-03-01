@@ -19,20 +19,13 @@ const Buttons = styled.div`
 
 const Div = styled.div`
   width: 880px;
-  margin: 150px auto;
+  margin: 0 auto;
   display: flex;
   flex-direction: column;
-`;
-
-const Item = styled.li`
-  display: flex;
-  flex-direction: row;
 `;
 
 const List = styled.div`
-  display: flex;
-  flex-direction: column;
-  margin: 10px 0;
+  margin: 50px 0;
 `;
 
 class Users extends React.Component {
@@ -50,12 +43,14 @@ class Users extends React.Component {
     return (
       <Div>
         <Button onClick={this.logOut}>Log Out</Button>
-        <h2>List of Users</h2>
-        <ul>
-          {this.state.users.map(u => (
-            <li key={u.id}>{u.username}</li>
-          ))}
-        </ul>
+        <List>
+          <h2>List of Users</h2>
+          <ul>
+            {this.state.users.map(u => (
+              <li key={u.id}>{u.username}</li>
+            ))}
+          </ul>
+        </List>
       </Div>
     );
   }

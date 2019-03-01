@@ -2,6 +2,18 @@ import React, { Component } from "react";
 import RegisterForm from "./registerForm";
 import { Button } from "reactstrap";
 import axios from "axios";
+import styled from "styled-components";
+
+const Div = styled.div`
+  width: 880px;
+  margin: 0 auto;
+`;
+
+const Buttons = styled.div`
+  display: flex;
+  justify-content: space-around;
+  margin: 15px;
+`;
 
 class Register extends Component {
   constructor(props) {
@@ -38,7 +50,7 @@ class Register extends Component {
 
   render() {
     return (
-      <div>
+      <Div>
         <RegisterForm
           handleChanges={this.handleChanges}
           handleSubmit={this.handleSubmit}
@@ -46,8 +58,12 @@ class Register extends Component {
           password={this.state.password}
           department={this.state.department}
         />
-        <Button onClick={this.toLogin}>Log In</Button>
-      </div>
+        <Buttons>
+          <Button onClick={this.handleSubmit}>Register</Button>
+
+          <Button onClick={this.toLogin}>Log In</Button>
+        </Buttons>
+      </Div>
     );
   }
 }
