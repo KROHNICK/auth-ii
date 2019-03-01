@@ -1,6 +1,4 @@
 import React, { Component } from "react";
-import { connect } from "react-redux";
-import { getUsers } from "../../actions";
 import User from "./user";
 import styled from "styled-components";
 import { Button } from "reactstrap";
@@ -42,17 +40,23 @@ class Users extends React.Component {
     users: []
   };
 
+  logOut = () => {
+    localStorage.removeItem("jwt");
+    console.log(localStorage);
+    this.props.history.push("/login");
+  };
+
   render() {
     return (
-      <>
-        <Button>Log Out</Button>
+      <Div>
+        <Button onClick={this.logOut}>Log Out</Button>
         <h2>List of Users</h2>
         <ul>
           {this.state.users.map(u => (
             <li key={u.id}>{u.username}</li>
           ))}
         </ul>
-      </>
+      </Div>
     );
   }
 

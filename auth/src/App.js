@@ -22,15 +22,4 @@ class App extends Component {
   }
 }
 
-const mapStateToProps = state => {
-  // console.log(state);
-  // console.log(localStorage);
-  return {};
-};
-
-export default withRouter(
-  connect(
-    mapStateToProps,
-    {}
-  )(App)
-);
+export default withRouter(App);

@@ -1,8 +1,6 @@
 import React, { Component } from "react";
-import { login } from "../../actions";
-import { connect } from "react-redux";
 import LoginForm from "./loginForm";
-import { Button } from "reactstrap";
+import { Button, Form, FormGroup, Label, Input, FormText } from "reactstrap";
 import axios from "axios";
 
 class Login extends Component {
@@ -38,15 +36,18 @@ class Login extends Component {
   toRegister = () => {
     this.props.history.push("/register");
   };
+  toLogin = () => {
+    this.props.history.push("/login");
+  };
 
   render() {
     return (
       <>
         <h2>Login</h2>
-        <form onSubmit={this.handleSubmit}>
+        <Form onSubmit={this.handleSubmit}>
           <div>
-            <label htmlFor="username" />
-            <input
+            <Label htmlFor="username" />
+            <Input
               name="username"
               id="username"
               value={this.state.username}
@@ -55,8 +56,8 @@ class Login extends Component {
             />
           </div>
           <div>
-            <label htmlFor="password" />
-            <input
+            <Label htmlFor="password" />
+            <Input
               name="password"
               id="password"
               value={this.state.password}
@@ -66,9 +67,10 @@ class Login extends Component {
           </div>
 
           <div>
-            <button type="submit">Login</button>
+            <Button>Login</Button>
+            <Button onClick={this.toRegister}>Register</Button>
           </div>
-        </form>
+        </Form>
       </>
     );
   }
@@ -81,7 +83,4 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(
-  mapStateToProps,
-  { login }
-)(Login);
+export default Login;

@@ -1,6 +1,4 @@
 import React, { Component } from "react";
-import { connect } from "react-redux";
-import { register } from "../../actions";
 import RegisterForm from "./registerForm";
 import { Button } from "reactstrap";
 import axios from "axios";
@@ -29,7 +27,7 @@ class Register extends Component {
       .post(endpoint, this.state)
       .then(res => {
         console.log(res.data);
-        this.props.history.push("/login");
+        this.props.history.push("/users");
       })
       .catch(err => console.log(err));
   };
@@ -49,21 +47,9 @@ class Register extends Component {
           department={this.state.department}
         />
         <Button onClick={this.toLogin}>Log In</Button>
-        {!this.props.isNotRegistered ? null : <h3>Could not register.</h3>}
-        {!this.props.isRegistered ? null : this.props.history.push("/users")}
       </div>
     );
   }
 }
 
-const mapStateToProps = state => {
-  return {
-    isNotRegistered: state.isNotRegistered,
-    isRegistered: state.isRegistered
-  };
-};
-
-export default connect(
-  mapStateToProps,
-  { register }
-)(Register);
+export default Register;
