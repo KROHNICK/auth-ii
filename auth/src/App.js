@@ -1,9 +1,7 @@
 import React, { Component } from "react";
-import logo from "./logo.svg";
 import "./App.css";
 import { Route } from "react-router-dom";
 import { withRouter } from "react-router";
-import { connect } from "react-redux";
 import Home from "./components/home/home";
 import Register from "./components/register/register";
 import Login from "./components/login/login";

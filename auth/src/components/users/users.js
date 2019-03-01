@@ -1,21 +1,8 @@
 import React, { Component } from "react";
-import User from "./user";
 import styled from "styled-components";
 import { Button } from "reactstrap";
 import axios from "axios";
 import Authenticate from "../auth/auth";
-
-const UserList = styled.div`
-  width: 880px;
-  margin: 0 auto;
-  display: flex;
-  flex-wrap: wrap;
-`;
-
-const Buttons = styled.div`
-  display: flex;
-  justify-content: space-evenly;
-`;
 
 const Div = styled.div`
   width: 880px;
@@ -28,7 +15,7 @@ const List = styled.div`
   margin: 50px 0;
 `;
 
-class Users extends React.Component {
+class Users extends Component {
   state = {
     users: []
   };

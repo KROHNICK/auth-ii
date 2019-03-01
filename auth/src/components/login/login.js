@@ -1,6 +1,5 @@
 import React, { Component } from "react";
-import LoginForm from "./loginForm";
-import { Button, Form, FormGroup, Label, Input, FormText } from "reactstrap";
+import { Button, Form, Label, Input } from "reactstrap";
 import axios from "axios";
 import styled from "styled-components";
 
@@ -87,12 +86,5 @@ class Login extends Component {
     );
   }
 }
-
-const mapStateToProps = state => {
-  return {
-    isNotLoggedIn: state.isNotLoggedIn,
-    isLoggedIn: state.isLoggedIn
-  };
-};
 
 export default Login;

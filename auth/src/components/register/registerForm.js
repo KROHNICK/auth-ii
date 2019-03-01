@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Form, FormGroup, Label, Input, FormText } from "reactstrap";
+import { Form, Label, Input } from "reactstrap";
 
 const RegisterForm = props => {
   return (
